@@ -11,13 +11,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150211234958) do
+ActiveRecord::Schema.define(version: 20150212234924) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  create_table "car_profiles", force: :cascade do |t|
+    t.string   "external_id"
+    t.string   "make"
+    t.string   "model"
+    t.integer  "year"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.integer  "user_id"
+  end
+
   create_table "maintenance_actions", force: :cascade do |t|
-    t.integer  "external_id"
+    t.string   "external_id"
     t.string   "engine_code"
     t.string   "transmission_code"
     t.integer  "interval_mileage"
@@ -32,6 +42,18 @@ ActiveRecord::Schema.define(version: 20150211234958) do
     t.string   "model_year"
     t.datetime "created_at",         null: false
     t.datetime "updated_at",         null: false
+    t.integer  "car_profile_id"
   end
 
+  create_table "users", force: :cascade do |t|
+    t.string   "name"
+    t.string   "email"
+    t.string   "password_digest"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "remember_token"
+  end
+
+  add_foreign_key "car_profiles", "users"
+  add_foreign_key "maintenance_actions", "car_profiles"
 end

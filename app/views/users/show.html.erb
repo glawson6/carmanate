@@ -1,0 +1,15 @@
+<% provide(:title, @user.name) %>
+
+<h1><%= @user.name %></h1>
+
+<h5>Items Added</h5>
+<ul>
+  <% @user.items.each do |item| %>
+    <li>
+      <%= link_to item.name, item_path(item) %>
+      <% if current_user?(@user) %>
+         | <%= link_to "edit", edit_item_path(item) %>
+      <% end %>
+     </li>
+  <% end %>
+</ul>

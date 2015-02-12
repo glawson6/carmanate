@@ -1,0 +1,17 @@
+<%= form_for(@car_profile) do |f| %>
+  <% if @car_profile.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@car_profile.errors.count, "error") %> prohibited this car_profile from being saved:</h2>
+
+      <ul>
+      <% @car_profile.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
