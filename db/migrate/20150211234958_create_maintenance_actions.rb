@@ -4,6 +4,7 @@ class CreateMaintenanceActions < ActiveRecord::Migration
       t.integer :external_id
       t.string :engine_code
       t.string :transmission_code
+      t.string :interval_month
       t.integer :interval_mileage
       t.integer :frequency
       t.string :action

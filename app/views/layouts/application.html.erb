@@ -7,15 +7,22 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
-<%= debug(params) if Rails.env.development? %>
 
 <%= render 'layouts/header' %>
+<div class="container auto-image">
 <div class="container-fluid">
   <% flash.each do |key, value| %>
     <%= content_tag(:div, value, class: "alert alert-#{key} no-margin") %>
   <% end %>
   <%= yield %>
 </div>
-
+<!--
+<nav class="navbar navbar-default navbar-bottom" role="navigation">
+    <div class="container">
+        <h1>Hello World</h1>
+    </div>
+</nav>
+-->
+</div>
 </body>
 </html>

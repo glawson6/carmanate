@@ -24,6 +24,10 @@ gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0', group: :doc
 
 gem 'bcrypt'
+gem 'httparty'
+gem 'json'
+gem 'awesome_print'
+
 group :production, :staging do
   gem 'rails_12factor'
 end

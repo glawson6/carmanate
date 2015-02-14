@@ -5,6 +5,8 @@ class CreateCarProfiles < ActiveRecord::Migration
       t.string :make
       t.string :model
       t.integer :year
+      t.string :engine_code
+      t.string :name
 
       t.timestamps null: false
     end

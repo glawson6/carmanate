@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150212234924) do
+ActiveRecord::Schema.define(version: 20150214153321) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -21,15 +21,20 @@ ActiveRecord::Schema.define(version: 20150212234924) do
     t.string   "make"
     t.string   "model"
     t.integer  "year"
+    t.string   "engine_code"
+    t.string   "name"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
     t.integer  "user_id"
   end
 
+  add_index "car_profiles", ["name"], name: "index_car_profiles_on_name", unique: true, using: :btree
+
   create_table "maintenance_actions", force: :cascade do |t|
     t.string   "external_id"
     t.string   "engine_code"
     t.string   "transmission_code"
+    t.string   "interval_month"
     t.integer  "interval_mileage"
     t.integer  "frequency"
     t.string   "action"

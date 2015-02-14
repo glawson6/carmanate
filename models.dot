@@ -1,7 +1,8 @@
 digraph models_diagram {
 	graph[overlap=false, splines=true]
 	"CarProfile" [shape=Mrecord, label="{CarProfile|id :integer\lexternal_id :string\lmake :string\lmodel :string\lyear :integer\lcreated_at :datetime\lupdated_at :datetime\luser_id :integer\l}"]
-	"MaintenanceAction" [shape=Mrecord, label="{MaintenanceAction|id :integer\lexternal_id :string\lengine_code :string\ltransmission_code :string\linterval_mileage :integer\lfrequency :integer\laction :string\litem :string\litem_description :string\llabor_units :float\lparts_units :float\lpart_cost_per_unit :float\ldrive_type :string\lmodel_year :string\lcreated_at :datetime\lupdated_at :datetime\l}"]
-	"User" [shape=Mrecord, label="{User|id :integer\lname :string\lemail :string\lpassword_digest :string\lcreated_at :datetime\lupdated_at :datetime\l}"]
-	"User" -> "CarProfile" [arrowtail=odot, arrowhead=crow, dir=both color="#14C67B"]
+	"MaintenanceAction" [shape=Mrecord, label="{MaintenanceAction|id :integer\lexternal_id :string\lengine_code :string\ltransmission_code :string\linterval_mileage :integer\lfrequency :integer\laction :string\litem :string\litem_description :string\llabor_units :float\lparts_units :float\lpart_cost_per_unit :float\ldrive_type :string\lmodel_year :string\lcreated_at :datetime\lupdated_at :datetime\lcar_profile_id :integer\l}"]
+	"User" [shape=Mrecord, label="{User|id :integer\lname :string\lemail :string\lpassword_digest :string\lcreated_at :datetime\lupdated_at :datetime\lremember_token :string\l}"]
+	"CarProfile" -> "MaintenanceAction" [arrowtail=odot, arrowhead=crow, dir=both color="#9EA151"]
+	"User" -> "CarProfile" [arrowtail=odot, arrowhead=crow, dir=both color="#313273"]
 }
