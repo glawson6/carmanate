@@ -1,9 +1,14 @@
-class Carmanate
+require_relative 'edmunds_api'
+require_relative 'maintenance_action'
+require_relative 'user'
+
+class Carmanate < Class
 
   def initialize(args)
-    @api_key = args[:api_key]
+    @api_key = ENV['EDMUNDS_API_KEY']
     @user = args[:user]
-    @car_profile = args[:car_profile]
+    name = args[:name]
+    @car_profile = @user.car_profiles.where(name: name)
   end
 
   def save_maintenance_actions
@@ -28,12 +33,12 @@ class Carmanate
 
   def get_maintenance_actions(args)
     engine_code = args[:engine_code]
-    @car_profile.maintenance_actions.where(engine_code: engine_code) if engine_code
+    save_maintenance_actions unless @car_profile.maintenance_actions.exist?
+    maintenance_actions =  @car_profile.maintenance_actions.where(engine_code: engine_code)
   end
 
   def get_car_profiles
     @user.car_profiles if @user
   end
-
 
 end

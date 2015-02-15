@@ -1,12 +1,45 @@
 body{
-    background-color: #597ea2;
+    /*background-color: #597ea2;*/
 }
 
 .slide-carmanate-right{
     padding-left:20% !important;
 }
+.navbar-carmante{
+    margin-bottom: 0px;
+}
 
 .auto-image{
-    background-image: url("auto-repair-promo.jpg");
+    background: #000 url("auto-repair-promo.jpg") no-repeat top center;
+    background-size:cover;
+    border-top: 5px solid #A0A0A0;
+    border-bottom: 5px solid #A0A0A0;
+    height: 620px;
+    margin: 0px;
+    color: #ffffff;
+}
 
+.regular-background{
+    border-top: 5px solid #A0A0A0;
+    border-bottom: 5px solid #A0A0A0;
+    height: 620px;
+    margin: 0px;
+}
+
+.signup-form{
+    width: 300px;
+}
+
+.signup-form-outer{
+    width: 400px;
+}
+
+.signup-panel-center{
+    float: none;
+    margin-left: auto;
+    margin-right: auto;
+    height: 605px;
+}
+.home-panel{
+    color: #2f3f50;
 }

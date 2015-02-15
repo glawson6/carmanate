@@ -1,0 +1,6 @@
+<div class="container-fluid">
+    <% flash.each do |key, value| %>
+        <%= content_tag(:div, value, class: "alert alert-#{key} no-margin") %>
+    <% end %>
+    <%= yield %>
+</div>

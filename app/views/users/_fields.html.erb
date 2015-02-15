@@ -1,21 +1,18 @@
-<%= form_for(@user) do |f| %>
-  <%= render 'shared/error_messages', object: f.object %>
 
-  <%= f.label :name %>
-  <%= f.text_field :name, autofocus: true %>
+    <%= form_for(@user, :html => { :class => ""} ) do |f| %>
 
-  <br>
-  <%= f.label :email %>
-  <%= f.text_field :email %>
-
-  <br>
-  <%= f.label :password %>
-  <%= f.password_field :password %>
-
-  <br>
-  <%= f.label :password_confirmation, "Confirm password" %>
-  <%= f.password_field :password_confirmation %>
-
-  <br>
-  <%= f.submit 'Save' %>
-<% end %>
+        <%= render 'shared/error_messages', object: f.object %>
+        <div class="form-group">
+            <%= f.label :name %><%= f.text_field :name, autofocus: true, class: 'form-control'  %>
+        </div>
+        <div class="form-group">
+            <%= f.label :email %><%= f.text_field :email, class: 'form-control' %>
+        </div>
+        <div class="form-group">
+            <%= f.label :password %><%= f.password_field :password, class: 'form-control' %>
+        </div>
+        <div class="form-group">
+            <%= f.label :password_confirmation, "Confirm password" %><%= f.password_field :password_confirmation, class: 'form-control' %>
+        </div>
+        <%= f.submit 'Save', :class => 'btn btn-default' %>
+    <% end %>

@@ -1,28 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>My Camping Store | <%= yield(:title) %></title>
+  <title>Carmanate | <%= yield(:title) %></title>
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
 </head>
 <body>
-
-<%= render 'layouts/header' %>
-<div class="container auto-image">
-<div class="container-fluid">
-  <% flash.each do |key, value| %>
-    <%= content_tag(:div, value, class: "alert alert-#{key} no-margin") %>
-  <% end %>
-  <%= yield %>
-</div>
-<!--
-<nav class="navbar navbar-default navbar-bottom" role="navigation">
-    <div class="container">
-        <h1>Hello World</h1>
-    </div>
-</nav>
--->
-</div>
+    <%= render 'layouts/header' %>
+    <%= yield %>
+    <%= render 'layouts/footer' %>
 </body>
 </html>

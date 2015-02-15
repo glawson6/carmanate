@@ -26,20 +26,27 @@
 #                                         })
 #end
 
-api_key = "uvgp3r9dfpve37bchqu4vp4g"
-user = User.create(name: 'tap', email: 'bigtap@taptechnology.net', password: 'foobar', password_confirmation:'foobar')
-car_profile = user.car_profiles.create(make: 'honda', model: 'civic', year: '2013', name: 'hc2')
-model_year_query = EdmundsApi.create_model_year_id_query(car_profile: car_profile, api_key: api_key)
+def save_maintenance(user,car_profile)
+  api_key = ENV['EDMUNDS_API_KEY']
+  model_year_query = EdmundsApi.create_model_year_id_query(car_profile: car_profile, api_key: api_key)
 
-model_year_id = EdmundsApi.get_model_year_id(model_year_query: model_year_query)
-car_profile.update_attributes(external_id: model_year_id)
-maintenance_query = EdmundsApi.create_maintenance_action_query(model_year_id: model_year_id, api_key: api_key)
-maintenance_response = EdmundsApi.get_maintenance_actions(maintenance_action_query: maintenance_query)
-maintenance_response["actionHolder"].each do |mreport|
-car_profile.maintenance_actions.create({
-                                             external_id: mreport["id"], engine_code: mreport["engineCode"], transmission_code: mreport["transmissionCode"],interval_month: mreport["intervalMonth"],
-                                             interval_mileage: mreport["intervalMileage"],  frequency: mreport["frequency"], part_cost_per_unit: mreport["partCostPerUnit"],
-                                             action: mreport["action"], item: mreport["item"], item_description: mreport["itemDescription"], labor_units: mreport["laborUnits"],
-                                             parts_units: mreport["partsUnits"], drive_type: mreport["driveType"], model_year: mreport["modelYear"]
-                                         })
+  model_year_id = EdmundsApi.get_model_year_id(model_year_query: model_year_query)
+  car_profile.update_attributes(external_id: model_year_id)
+  maintenance_query = EdmundsApi.create_maintenance_action_query(model_year_id: model_year_id, api_key: api_key)
+  maintenance_response = EdmundsApi.get_maintenance_actions(maintenance_action_query: maintenance_query)
+  maintenance_response["actionHolder"].each do |mreport|
+  car_profile.maintenance_actions.create({external_id: mreport["id"], engine_code: mreport["engineCode"], transmission_code: mreport["transmissionCode"],interval_month: mreport["intervalMonth"],
+    interval_mileage: mreport["intervalMileage"],  frequency: mreport["frequency"], part_cost_per_unit: mreport["partCostPerUnit"],
+    action: mreport["action"], item: mreport["item"], item_description: mreport["itemDescription"], labor_units: mreport["laborUnits"],
+    parts_units: mreport["partsUnits"], drive_type: mreport["driveType"], model_year: mreport["modelYear"]})
+  end
 end
+
+
+user = User.create(name: 'tap', email: 'bigtap@taptechnology.net', password: 'foobar', password_confirmation:'foobar')
+#carmanate = Carmanate.new({})
+car_profile = user.car_profiles.create(make: 'honda', model: 'civic', year: '2013', name: 'hc2013')
+save_maintenance(user,car_profile)
+user2 = User.create(name: 'BIG', email: 'big@tex.net', password: 'foobar', password_confirmation:'foobar')
+car_profile2 = user2.car_profiles.create!(make: 'honda', model: 'accord', year: '2014', name: 'hac2014')
+save_maintenance(user2,car_profile2)

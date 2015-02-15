@@ -28,8 +28,6 @@ ActiveRecord::Schema.define(version: 20150214153321) do
     t.integer  "user_id"
   end
 
-  add_index "car_profiles", ["name"], name: "index_car_profiles_on_name", unique: true, using: :btree
-
   create_table "maintenance_actions", force: :cascade do |t|
     t.string   "external_id"
     t.string   "engine_code"
