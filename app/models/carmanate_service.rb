@@ -2,13 +2,14 @@ require_relative 'edmunds_api'
 require_relative 'maintenance_action'
 require_relative 'user'
 
-class Carmanate
+class CarmanateService
 
   def initialize(args)
     @api_key = ENV['EDMUNDS_API_KEY']
     @user = args[:user]
     name = args[:name]
-    @car_profile = @user.car_profiles.where(name: name)
+    #@car_profile = @user.car_profiles.where(name: name)
+    @car_profile = args[:car_profile]
   end
 
   def save_maintenance_actions
