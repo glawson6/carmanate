@@ -1,45 +1,50 @@
 
-  <!-- Main component for a primary marketing message or call to action -->
-    <!--
-  <div class="jumbotron">
-    <h2>Welcome to Carmanate!</h2>
-    <h4>We are just getting started but please check us out.</h4>
-  </div>
-    -->
-  <!-- Static navbar -->
-  <nav class="navbar navbar-default  navbar-static-top navbar-carmante">
-      <div class="container-fluid">
-          <!-- Brand and toggle get grouped for better mobile display -->
-          <div class="navbar-header">
-              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                  <span class="sr-only">Toggle navigation</span>
-                  <span class="icon-bar"></span>
-                  <span class="icon-bar"></span>
-                  <span class="icon-bar"></span>
-              </button>
-              <a class="navbar-brand" href="#">Carmanate</a>
-          </div>
+<nav class="navbar navbar-default  navbar-static-top navbar-carmante">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">Carmanate</a>
+        </div>
+        <div class="collapse navbar-collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li <%= 'class="active"' if @active == 'home'  %>><a href="/">Home</a></li>
+                <li <%= 'class="active"' if @active == 'about' %>><a href="/about">About</a></li>
 
-          <!-- Collect the nav links, forms, and other content for toggling -->
-          <div class="collapse navbar-collapse">
-              <ul class="nav navbar-nav">
-                  <li <%= 'class="active"' if @active == 'home'  %>><a href="/">Home</a></li>
-                  <li <%= 'class="active"' if @active == 'items' %>><a href="/items">View Car Profiles</a></li>
-                  <li <%= 'class="active"' if @active == 'items' %>><a href="/items">Create Car Profile</a></li>
-                  <li <%= 'class="active"' if @active == 'about' %>><a href="/about">About</a></li>
-              </ul>
-              <ul class="nav navbar-nav navbar-right">
-                  <li><%= 'link_to "Items", items_path '%></li>
-                  <li><%= 'link_to "New Item", new_item_path' %></li>
-                  <% if signed_in? %>
-                      <li><%= link_to "My Profile", user_path(current_user) %></li>
-                      <li><%= link_to "Edit Profile", edit_user_path(current_user) %></li>
-                      <li><%= link_to "Sign Out", signout_path, method: 'delete' %></li>
-                  <% else %>
-                      <li><%= link_to "Sign Up", signup_path %></li>
-                      <li><%= link_to "Sign In", signin_path %></li>
-                  <% end %>
-              </ul>
-          </div><!-- /.navbar-collapse -->
-      </div><!-- /.container-fluid -->
-  </nav>
+                <% if signed_in? %>
+                    <li><%= link_to "Sign Out", signout_path, method: 'delete' %></li>
+                <% else %>
+                    <li><%= link_to "Sign Up", signup_path %></li>
+                    <li><%= link_to "Sign In", signin_path %></li>
+                <% end %>
+
+            </ul>
+        </div>
+    </div>
+</nav>
+<% if signed_in? %>
+<nav class="navbar navbar-default  navbar-static-top navbar-carmante navbar-lower">
+    <div class="container-fluid">
+        <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#"><%= current_user.name %></a>
+        </div>
+        <div class="collapse navbar-collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li><%= link_to "Create Car Profile", user_path(current_user) %></li>
+                <li><%= link_to "Car Profiles", user_path(current_user) %></li>
+                <li><%= link_to "Account Info", edit_user_path(current_user) %></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<% end %>

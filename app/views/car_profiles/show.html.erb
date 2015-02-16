@@ -1,4 +1,10 @@
-<p id="notice"><%= notice %></p>
+<div class="container-fluid regular-background">
+    <div class="row">
+    <h2>Engine Code: <%= @car_profile.engine_code %></h2>
+    <% @maintenance_actions.each do |maction|%>
 
+    <% end %>
 <%= link_to 'Edit', edit_car_profile_path(@car_profile) %> |
 <%= link_to 'Back', car_profiles_path %>
+    </div>
+</div>

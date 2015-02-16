@@ -1,0 +1,17 @@
+<% provide(:title, @user.name) %>
+<div class="container-fluid regular-background">
+    <div class="row">
+
+<h5>Car Profiles</h5>
+<ul>
+    <% @user.car_profiles.each do |item| %>
+        <li>
+            <%= link_to item.name, car_profile_path(item) %>
+            <% if current_user?(@user) %>
+                | <%= link_to "edit", edit_car_profile_path(item) %>
+            <% end %>
+        </li>
+    <% end %>
+</ul>
+        </div>
+</div

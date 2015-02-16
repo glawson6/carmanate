@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
 
   root 'static_pages#home'
-  resources :car_profile
+  resources :car_profiles
 
   resources :users,     except: [:new]
   resources :sessions,  only:   [:create]

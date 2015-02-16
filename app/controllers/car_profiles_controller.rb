@@ -1,5 +1,6 @@
 class CarProfilesController < ApplicationController
   before_action :set_car_profile, only: [:show, :edit, :update, :destroy]
+  before_action :signed_in_user
 
   # GET /car_profiles
   # GET /car_profiles.json
@@ -10,6 +11,9 @@ class CarProfilesController < ApplicationController
   # GET /car_profiles/1
   # GET /car_profiles/1.json
   def show
+    @car_profile = current_user.car_profiles.find(params[:id])
+    @maintenance_actions = @car_profile.maintenance_actions.where(engine_code: @car_profile.engine_code).order(:interval_mileage)
+    puts @maintenance_actions.count
   end
 
   # GET /car_profiles/new
@@ -19,6 +23,7 @@ class CarProfilesController < ApplicationController
 
   # GET /car_profiles/1/edit
   def edit
+    @car_profile = CarProfile.find(params[:id])
   end
 
   # POST /car_profiles

@@ -40,6 +40,10 @@ def save_maintenance(user,car_profile)
     action: mreport["action"], item: mreport["item"], item_description: mreport["itemDescription"], labor_units: mreport["laborUnits"],
     parts_units: mreport["partsUnits"], drive_type: mreport["driveType"], model_year: mreport["modelYear"]})
   end
+
+  engine_codes = car_profile.maintenance_actions.select(:engine_code, :id).distinct
+  puts engine_codes.first.engine_code
+  car_profile.update_attributes(engine_code: engine_codes.first.engine_code)
 end
 
 

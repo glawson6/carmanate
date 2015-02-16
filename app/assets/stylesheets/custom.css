@@ -8,6 +8,9 @@ body{
 .navbar-carmante{
     margin-bottom: 0px;
 }
+.navbar-lower{
+    background-color: #617487;
+}
 
 .auto-image{
     background: #000 url("auto-repair-promo.jpg") no-repeat top center;

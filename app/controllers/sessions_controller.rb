@@ -2,6 +2,7 @@ class SessionsController < ApplicationController
   before_action :redirect_if_signed_in, except: [:destroy]
 
   def new
+    puts 'In SessionsController new'
   end
 
   def create
