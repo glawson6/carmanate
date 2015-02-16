@@ -13,7 +13,7 @@ body{
 }
 
 .auto-image{
-    background: #000 url("auto-repair-promo.jpg") no-repeat top center;
+    background: #000 url("/images/auto-repair-promo.jpg") no-repeat top center;
     background-size:cover;
     border-top: 5px solid #A0A0A0;
     border-bottom: 5px solid #A0A0A0;
