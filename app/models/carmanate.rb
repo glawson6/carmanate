@@ -2,7 +2,7 @@ require_relative 'edmunds_api'
 require_relative 'maintenance_action'
 require_relative 'user'
 
-class Carmanate < Class
+class Carmanate
 
   def initialize(args)
     @api_key = ENV['EDMUNDS_API_KEY']
