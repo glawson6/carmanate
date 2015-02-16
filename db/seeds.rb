@@ -50,7 +50,9 @@ end
 user = User.create(name: 'tap', email: 'bigtap@taptechnology.net', password: 'foobar', password_confirmation:'foobar')
 #carmanate = Carmanate.new({})
 car_profile = user.car_profiles.create(make: 'honda', model: 'civic', year: '2013', name: 'hc2013')
+puts "saving user => #{user.name}"
 save_maintenance(user,car_profile)
 user2 = User.create(name: 'BIG', email: 'big@tex.net', password: 'foobar', password_confirmation:'foobar')
 car_profile2 = user2.car_profiles.create!(make: 'honda', model: 'accord', year: '2014', name: 'hac2014')
 save_maintenance(user2,car_profile2)
+puts "saving user => #{user2.name}"
