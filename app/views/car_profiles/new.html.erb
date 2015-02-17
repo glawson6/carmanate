@@ -1,5 +1,10 @@
-<h1>New Car Profile</h1>
+<% provide(:title, 'Create Car Profile') %>
+<div class="container-fluid regular-background">
+    <div class="row">
+        <h1>New Car Profile</h1>
+        <%= render 'form' %>
+        <%= link_to 'Back', car_profiles_path %>
 
-<%= render 'form' %>
-
-<%= link_to 'Back', car_profiles_path %>
+    </div>
+</div>
+<%= render 'makemodelyear' %>

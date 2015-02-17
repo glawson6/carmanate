@@ -1,0 +1,38 @@
+<%= javascript_tag do %>
+    alert("My example alert box.");
+    $(document).ready(function() {
+        $('#make_select').change(function() {
+            $.ajax({
+                url: "<%= make_model_year_path%>",
+                data: {
+                    make : $('#make_select').val()
+                },
+                dataType: "script",
+                success: function(result){
+                    $('#model_select').html(result);
+                }
+             });
+        });
+        $('#model_select').change(function() {
+            $.ajax({
+                url: "<%= make_model_year_path%>",
+                data: {
+                    model : $('#model_select').val(),
+                    make : $('#make_select').val()
+                },
+                dataType: "script"
+             });
+        });
+        $('#year_select').change(function() {
+            $.ajax({
+                url: "<%= make_model_year_path%>",
+                data: {
+                    model : $('#model_select').val(),
+                    make : $('#make_select').val(),
+                    year : $('#year_select').val()
+                },
+                dataType: "script"
+            });
+        });
+    });
+<% end %>

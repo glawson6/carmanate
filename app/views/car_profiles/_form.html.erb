@@ -1,3 +1,4 @@
+
 <%= form_for(@car_profile) do |f| %>
   <% if @car_profile.errors.any? %>
     <div id="error_explanation">
@@ -11,7 +12,15 @@
     </div>
   <% end %>
 
+
+    <%= collection_select(:car_profile, :make, @make_names, :make_name, :make_name, {:prompt => true}, {:id => 'make_select'}) %>
+    <%# collection_select(:car_profile, :make, @make_names, :to_s, :to_s, {:prompt => true}, {:id => 'make_select'}) %>
+    <% if @model_names%>
+        <%= collection_select(:car_profile, :model, @model_names, :to_s, :to_s, {:prompt => true}, {:id => 'model_select'}) %>
+    <% end %>
+
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit 'Create', :class => 'btn btn-default'  %>
   </div>
 <% end %>
+

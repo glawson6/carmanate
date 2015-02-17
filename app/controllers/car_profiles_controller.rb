@@ -18,7 +18,15 @@ class CarProfilesController < ApplicationController
 
   # GET /car_profiles/new
   def new
+    make = params[:make]
+    model = params[:model]
+    year = params[:year]
     @car_profile = CarProfile.new
+
+    #@make_names = CarMake.select(:make_name).distinct.map{|a| [a["make_name"], a["make_name"]]} unless make
+    @make_names = CarMake.select(:make_name).distinct unless make
+    @model_names = CarMake.select(:cmodel_name).where(make_name: @car_profile.make).map{|a| [a["cmodel_name"], a["cmodel_name"]]} unless model && make
+    @years = CarMake.select(:year).where(make_name: @car_profile.make, cmodel_name: @car_profile.model) unless @car_profile.model && @car_profile.make && @car_profile.year
   end
 
   # GET /car_profiles/1/edit
@@ -66,6 +74,35 @@ class CarProfilesController < ApplicationController
     end
   end
 
+
+  def make_model_year
+    make = params[:make]
+    model = params[:model]
+    year = params[:year]
+    @car_profile = CarProfile.new({make: make, model: model, year: year})
+    if make
+      @make_names = {make_name: make}
+    else
+      @make_names = CarMake.select(:make_name).distinct
+    end
+    puts "make => #{make}"
+    if model
+      @model_names = {model_name: model}
+    else
+      @model_names = CarMake.select(:cmodel_name).where(make_name: make)
+      @model_names = CarMake.select(:cmodel_name).where(make_name: @car_profile.make).map{|a| [a["cmodel_name"], a["cmodel_name"]]} if make
+    end
+    @years = CarMake.select(:year).where(make_name: make, cmodel_name: model) unless model && make && year
+    puts @car_profile
+
+    #puts @make_names
+    #
+    response_data = {make_names: @make_names, model_names: @model_names, years: @years}
+    puts response_data
+    #render json: response_data
+    render 'make_model_year'
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_car_profile
@@ -74,6 +111,6 @@ class CarProfilesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def car_profile_params
-      params[:car_profile]
+      params.require(:car_profile).permit(:make, :model, :year, :engine_code)
     end
 end

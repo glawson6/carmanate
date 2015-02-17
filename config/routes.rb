@@ -2,15 +2,18 @@ Rails.application.routes.draw do
 
   root 'static_pages#home'
   resources :car_profiles
-
+  get '/car_profiles/make/model/year', to: 'car_profiles#make_model_year', as: 'make_model_year'
   resources :users,     except: [:new]
   resources :sessions,  only:   [:create]
+
 
   get '/about',     to: 'static_pages#about'
 
   get '/signup',    to: 'users#new'
   get '/signin',    to: 'sessions#new'
   delete '/signout',   to: 'sessions#destroy'
+
+  #get '/:make/:model/:year', to: 'car_profiles#make_model_year', as: 'make_model_year'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

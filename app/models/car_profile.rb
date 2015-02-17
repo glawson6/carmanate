@@ -4,5 +4,9 @@ class CarProfile < ActiveRecord::Base
   belongs_to :user
   has_many :maintenance_actions, dependent: :destroy
 
-  validates :name, presence: true, length: { maximum: 254 }, uniqueness: { case_sensitive: false,scope: :user_id }
+  validates name, presence: true, length: { maximum: 254 }, uniqueness: { case_sensitive: false,scope: :user_id }
+
+  def to_s
+    "#{make}-#{model}-#{year}-#{engine_code}"
+  end
 end
