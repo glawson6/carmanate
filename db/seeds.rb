@@ -60,3 +60,9 @@ carmanate2 = CarmanateService.new(user: user2, car_profile: car_profile2)
 carmanate2.save_maintenance_actions
 #save_maintenance(user2,car_profile2)
 puts "saving user => #{user2.name}"
+
+makes_response = JSON.parse(HTTParty.get("https://api.edmunds.com/api/vehicle/v2/makes?view=basic&fmt=json&api_key=uvgp3r9dfpve37bchqu4vp4g").body)
+makes_response["makes"].each{|make| make["models"].each{|model| model["years"].each{|year| CarMake.create(external_id: make["id"],
+                              make_name: make["name"], make_nice_name: make["niceName"], cmodel_name: model["name"],
+                              cmodel_nice_name: model["niceName"], year: year["year"]) }}}
+
