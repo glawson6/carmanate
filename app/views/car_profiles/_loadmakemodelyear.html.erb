@@ -26,5 +26,8 @@
                 }
              });
         });
+    $('#make_select').val('<%= @make %>');
+    $('#model_select').val('<%= @model %>');
+    $('#model_select').trigger('change');
     });
 <% end %>

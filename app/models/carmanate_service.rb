@@ -14,9 +14,11 @@ class CarmanateService
 
   def save_maintenance_actions
     model_year_query = EdmundsApi.create_model_year_id_query(car_profile: @car_profile, api_key: @api_key)
+    puts "model_year_query => #{model_year_query}"
     model_year_id = EdmundsApi.get_model_year_id(model_year_query: model_year_query)
     @car_profile.update_attributes(external_id: model_year_id)
     maintenance_query = EdmundsApi.create_maintenance_action_query(model_year_id: model_year_id, api_key: @api_key)
+    puts "maintenance_query => #{maintenance_query}"
     maintenance_response = EdmundsApi.get_maintenance_actions(maintenance_action_query: maintenance_query)
     maintenance_response["actionHolder"].each do |mreport|
       @car_profile.maintenance_actions.create({
@@ -42,4 +44,7 @@ class CarmanateService
     @user.car_profiles if @user
   end
 
+  def delete_maintenance_actions
+    MaintenanceAction.where(car_profile_id: @car_profile.id).destroy_all
+  end
 end

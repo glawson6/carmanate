@@ -1,0 +1,3 @@
+$('#make_select').html("<%= escape_javascript(options_for_select(@make_names,@make)) %>");
+$('#model_select').html("<%= escape_javascript(options_for_select(@model_names,@model)) %>");
+$('#year_select').html("<%= escape_javascript(options_for_select(@years,@year)) %>");

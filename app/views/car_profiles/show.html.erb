@@ -1,10 +1,33 @@
 <div class="container-fluid regular-background">
     <div class="row">
-    <h2>Engine Code: <%= @car_profile.engine_code %></h2>
-    <% @maintenance_actions.each do |maction|%>
+        <h2>Car Profile: <%= @car_profile.name %>-<%=@car_profile.to_s %> Engine Code: <%= @car_profile.engine_code %></h2>
 
-    <% end %>
-<%= link_to 'Edit', edit_car_profile_path(@car_profile) %> |
-<%= link_to 'Back', car_profiles_path %>
+                <!-- Table -->
+                <table class="table table-bordered table-condensed table-striped">
+                    <thead>
+                    <tr>
+                        <th>Mileage</th>
+                        <th>Interval Month</th>
+                        <th>Action</th>
+                        <th>Item</th>
+                        <th>Item Description</th>
+                        <th>Labor Units</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <% @maintenance_actions.each do |maction|%>
+                    <tr>
+                        <td><%= maction.interval_mileage%></td>
+                        <td><%= maction.interval_month%></td>
+                        <td><%= maction.action%></td>
+                        <td><%= maction.item%></td>
+                        <td><%= maction.item_description%></td>
+                        <td><%= maction.labor_units%></td>
+                    </tr>
+                    <% end %>
+                    </tbody>
+                </table>
+        <%= link_to 'Edit', edit_car_profile_path(@car_profile) %> |
+        <%= link_to 'Back', car_profiles_path %>
     </div>
 </div>

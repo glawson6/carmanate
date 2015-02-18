@@ -12,7 +12,7 @@ class CarProfilesController < ApplicationController
   # GET /car_profiles/1.json
   def show
     @car_profile = current_user.car_profiles.find(params[:id])
-    @maintenance_actions = @car_profile.maintenance_actions.where(engine_code: @car_profile.engine_code).order(:interval_mileage)
+    @maintenance_actions = @car_profile.maintenance_actions.where(car_profile_id: @car_profile.id, engine_code: @car_profile.engine_code).order(:interval_mileage)
     puts @maintenance_actions.count
   end
 
@@ -22,25 +22,39 @@ class CarProfilesController < ApplicationController
     model = params[:model]
     year = params[:year]
     @car_profile = CarProfile.new
-
-    #@make_names = CarMake.select(:make_name).distinct.map{|a| [a["make_name"], a["make_name"]]} unless make
-    @make_names = CarMake.select(:make_name).distinct unless make
-    @model_names = CarMake.select(:cmodel_name).where(make_name: @car_profile.make).map{|a| [a["cmodel_name"], a["cmodel_name"]]} unless model && make
-    @years = CarMake.select(:year).where(make_name: @car_profile.make, cmodel_name: @car_profile.model) unless @car_profile.model && @car_profile.make && @car_profile.year
+    @make_names = CarMake.select(:make_name).distinct.order(:make_name) unless make
+    @model_names = []
+    @years = []
+   # @model_names = CarMake.select(:cmodel_name).where(make_name: @car_profile.make).map{|a| [a["cmodel_name"], a["cmodel_name"]]} unless model && make
+   # @years = CarMake.select(:year).where(make_name: @car_profile.make, cmodel_name: @car_profile.model) unless @car_profile.model && @car_profile.make && @car_profile.year
   end
 
   # GET /car_profiles/1/edit
   def edit
     @car_profile = CarProfile.find(params[:id])
+    @make = @car_profile.make
+    @model = @car_profile.model
+    @year = @car_profile.year
+    @make_names = CarMake.select(:make_name).distinct.order(:make_name)
+    @engine_codes = @car_profile.maintenance_actions.select(:engine_code).distinct
+    #@make_names = CarMake.select(:make_name).distinct.order(:make_name).map.map{|a| [a["make_name"], a["make_name"]]}
+    @model_names = CarMake.select(:cmodel_name,:cmodel_name).distinct.where(make_name: @car_profile.make).order(:cmodel_name).map{|a| [a["cmodel_name"], a["cmodel_name"]]}
+    @years = CarMake.select(:year).where(make_name: @make, cmodel_name: @model).distinct.order(:year).map{|a| [a["year"], a["year"]]}
+
   end
 
   # POST /car_profiles
   # POST /car_profiles.json
   def create
-    @car_profile = CarProfile.new(car_profile_params)
-
+    @car_profile =  current_user.car_profiles.new(car_profile_params)
+    #@car_profile = CarProfile.new(car_profile_params)
+    puts "This is a => #{@car_profile.inspect}"
     respond_to do |format|
       if @car_profile.save
+        puts "We SAVED in create!!!!!!"
+        @carmante_service = CarmanateService.new({car_profile: @car_profile, user: current_user})
+        @carmante_service.delete_maintenance_actions
+        @carmante_service .save_maintenance_actions
         format.html { redirect_to @car_profile, notice: 'Car profile was successfully created.' }
         format.json { render :show, status: :created, location: @car_profile }
       else
@@ -55,6 +69,10 @@ class CarProfilesController < ApplicationController
   def update
     respond_to do |format|
       if @car_profile.update(car_profile_params)
+        puts "We SAVED in update!!!!!!"
+        @carmante_service  = CarmanateService.new({car_profile: @car_profile, user: current_user})
+        @carmante_service.delete_maintenance_actions
+        @carmante_service.save_maintenance_actions
         format.html { redirect_to @car_profile, notice: 'Car profile was successfully updated.' }
         format.json { render :show, status: :ok, location: @car_profile }
       else
@@ -74,35 +92,6 @@ class CarProfilesController < ApplicationController
     end
   end
 
-
-  def make_model_year
-    make = params[:make]
-    model = params[:model]
-    year = params[:year]
-    @car_profile = CarProfile.new({make: make, model: model, year: year})
-    if make
-      @make_names = {make_name: make}
-    else
-      @make_names = CarMake.select(:make_name).distinct
-    end
-    puts "make => #{make}"
-    if model
-      @model_names = {model_name: model}
-    else
-      @model_names = CarMake.select(:cmodel_name).where(make_name: make)
-      @model_names = CarMake.select(:cmodel_name).where(make_name: @car_profile.make).map{|a| [a["cmodel_name"], a["cmodel_name"]]} if make
-    end
-    @years = CarMake.select(:year).where(make_name: make, cmodel_name: model) unless model && make && year
-    puts @car_profile
-
-    #puts @make_names
-    #
-    response_data = {make_names: @make_names, model_names: @model_names, years: @years}
-    puts response_data
-    #render json: response_data
-    render 'make_model_year'
-  end
-
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_car_profile
@@ -111,6 +100,6 @@ class CarProfilesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def car_profile_params
-      params.require(:car_profile).permit(:make, :model, :year, :engine_code)
+      params.require(:car_profile).permit(:make, :model, :year, :name, :engine_code)
     end
 end
