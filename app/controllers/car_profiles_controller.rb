@@ -2,6 +2,7 @@ class CarProfilesController < ApplicationController
   before_action :set_car_profile, only: [:show, :edit, :update, :destroy]
   before_action :signed_in_user
 
+  include CarProfilesHelper
   # GET /car_profiles
   # GET /car_profiles.json
   def index
@@ -22,9 +23,10 @@ class CarProfilesController < ApplicationController
     model = params[:model]
     year = params[:year]
     @car_profile = CarProfile.new
-    @make_names = CarMake.select(:make_name).distinct.order(:make_name) unless make
-    @model_names = []
-    @years = []
+    get_make_model_year
+    #@make_names = CarMake.select(:make_name).distinct.order(:make_name)
+    #@model_names = []
+    #@years = []
    # @model_names = CarMake.select(:cmodel_name).where(make_name: @car_profile.make).map{|a| [a["cmodel_name"], a["cmodel_name"]]} unless model && make
    # @years = CarMake.select(:year).where(make_name: @car_profile.make, cmodel_name: @car_profile.model) unless @car_profile.model && @car_profile.make && @car_profile.year
   end
@@ -32,14 +34,15 @@ class CarProfilesController < ApplicationController
   # GET /car_profiles/1/edit
   def edit
     @car_profile = CarProfile.find(params[:id])
-    @make = @car_profile.make
-    @model = @car_profile.model
-    @year = @car_profile.year
-    @make_names = CarMake.select(:make_name).distinct.order(:make_name)
-    @engine_codes = @car_profile.maintenance_actions.select(:engine_code).distinct
-    #@make_names = CarMake.select(:make_name).distinct.order(:make_name).map.map{|a| [a["make_name"], a["make_name"]]}
-    @model_names = CarMake.select(:cmodel_name,:cmodel_name).distinct.where(make_name: @car_profile.make).order(:cmodel_name).map{|a| [a["cmodel_name"], a["cmodel_name"]]}
-    @years = CarMake.select(:year).where(make_name: @make, cmodel_name: @model).distinct.order(:year).map{|a| [a["year"], a["year"]]}
+    get_make_model_year
+    #@make = @car_profile.make
+    #@model = @car_profile.model
+    #@year = @car_profile.year
+    #@make_names = CarMake.select(:make_name).distinct.order(:make_name)
+    #
+    ##@make_names = CarMake.select(:make_name).distinct.order(:make_name).map.map{|a| [a["make_name"], a["make_name"]]}
+    #@model_names = CarMake.select(:cmodel_name,:cmodel_name).distinct.where(make_name: @car_profile.make).order(:cmodel_name).map{|a| [a["cmodel_name"], a["cmodel_name"]]}
+    #@years = CarMake.select(:year).where(make_name: @make, cmodel_name: @model).distinct.order(:year).map{|a| [a["year"], a["year"]]}
 
   end
 
@@ -49,37 +52,51 @@ class CarProfilesController < ApplicationController
     @car_profile =  current_user.car_profiles.new(car_profile_params)
     #@car_profile = CarProfile.new(car_profile_params)
     puts "This is a => #{@car_profile.inspect}"
-    respond_to do |format|
+
       if @car_profile.save
         puts "We SAVED in create!!!!!!"
         @carmante_service = CarmanateService.new({car_profile: @car_profile, user: current_user})
         @carmante_service.delete_maintenance_actions
         @carmante_service .save_maintenance_actions
-        format.html { redirect_to @car_profile, notice: 'Car profile was successfully created.' }
-        format.json { render :show, status: :created, location: @car_profile }
+
+        if has_engine_code? @car_profile.engine_code
+          redirect_to @car_profile, notice: 'Car profile was successfully created.'
+        #format.html { redirect_to @car_profile, notice: 'Car profile was successfully created.' }
+        #format.json { render :show, status: :created, location: @car_profile }
+        else
+          render 'edit'
+        end
       else
-        format.html { render :new }
-        format.json { render json: @car_profile.errors, status: :unprocessable_entity }
+        get_make_model_year
+        render :new
+        #format.html { render :new }
+        #format.json { render json: @car_profile.errors, status: :unprocessable_entity }
       end
-    end
+
   end
 
   # PATCH/PUT /car_profiles/1
   # PATCH/PUT /car_profiles/1.json
   def update
-    respond_to do |format|
       if @car_profile.update(car_profile_params)
         puts "We SAVED in update!!!!!!"
         @carmante_service  = CarmanateService.new({car_profile: @car_profile, user: current_user})
         @carmante_service.delete_maintenance_actions
         @carmante_service.save_maintenance_actions
-        format.html { redirect_to @car_profile, notice: 'Car profile was successfully updated.' }
-        format.json { render :show, status: :ok, location: @car_profile }
+        if has_engine_code? @car_profile.engine_code
+          redirect_to @car_profile, notice: 'Car profile was successfully updated.'
+          #format.html { redirect_to @car_profile, notice: 'Car profile was successfully created.' }
+          #format.json { render :show, status: :created, location: @car_profile }
+        else
+          render 'edit'
+        end
       else
-        format.html { render :edit }
-        format.json { render json: @car_profile.errors, status: :unprocessable_entity }
+        get_make_model_year
+        render :edit
+        #format.html { render :edit }
+        #format.json { render json: @car_profile.errors, status: :unprocessable_entity }
       end
-    end
+
   end
 
   # DELETE /car_profiles/1

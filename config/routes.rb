@@ -12,6 +12,7 @@ Rails.application.routes.draw do
   get '/signup',    to: 'users#new'
   get '/signin',    to: 'sessions#new'
   delete '/signout',   to: 'sessions#destroy'
+  get '/signout',   to: 'sessions#destroy'
 
   #get '/:make/:model/:year', to: 'car_profiles#make_model_year', as: 'make_model_year'
   # The priority is based upon order of creation: first created -> highest priority.

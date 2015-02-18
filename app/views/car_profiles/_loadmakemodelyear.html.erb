@@ -5,7 +5,9 @@
             $.ajax({
                 url: "<%= make_model_year_path%>",
                 data: {
-                    make : $('#make_select').val()
+                    model : $('#model_select').val(),
+                    make  : $('#make_select').val(),
+                    year  : $('#year_select').val()
                 },
                 dataType: "script",
                 success: function(result){
@@ -18,7 +20,8 @@
                 url: "<%= make_model_year_path%>",
                 data: {
                     model : $('#model_select').val(),
-                    make : $('#make_select').val()
+                    make : $('#make_select').val(),
+                    year  : $('#year_select').val()
                 },
                 dataType: "script",
                 success: function(result){
@@ -26,8 +29,9 @@
                 }
              });
         });
-    $('#make_select').val('<%= @make %>');
-    $('#model_select').val('<%= @model %>');
-    $('#model_select').trigger('change');
+        $('#make_select').val('<%= @make %>');
+        $('#model_select').val('<%= @model %>');
+        $('#year_select').val('<%= @year %>');
+        $('#model_select').trigger('change');
     });
 <% end %>
