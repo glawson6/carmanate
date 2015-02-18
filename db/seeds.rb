@@ -46,9 +46,8 @@ def save_maintenance(user,car_profile)
   car_profile.update_attributes(engine_code: engine_codes.first.engine_code)
 end
 
-
+User.destroy_all
 user = User.create(name: 'tap', email: 'bigtap@taptechnology.net', password: 'foobar', password_confirmation:'foobar')
-user.save
 car_profile = user.car_profiles.create(make: 'honda', model: 'civic', year: '2013', name: 'hc2013')
 carmanate = CarmanateService.new(user: user, car_profile: car_profile)
 puts "saving user => #{user.name}"
