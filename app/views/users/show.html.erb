@@ -9,6 +9,7 @@
                     <tr>
                         <th>Maintenance Report</th>
                         <th>Edit</th>
+                        <th>Delete</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -16,6 +17,7 @@
                         <tr>
                             <td><%= link_to item.name, car_profile_path(item) %></td>
                             <td><%= link_to "edit", edit_car_profile_path(item) %></td>
+                            <td><%= link_to "delete", item, method: :delete, data: { confirm: 'Are you sure?' } %></td>
                         </tr>
                     <% end %>
                     </tbody>

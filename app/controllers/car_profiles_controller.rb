@@ -104,10 +104,7 @@ class CarProfilesController < ApplicationController
   # DELETE /car_profiles/1.json
   def destroy
     @car_profile.destroy
-    respond_to do |format|
-      format.html { redirect_to car_profiles_url, notice: 'Car profile was successfully destroyed.' }
-      format.json { head :no_content }
-    end
+    redirect_to user_path current_user, notice: 'Car profile was successfully destroyed.'
   end
 
   private

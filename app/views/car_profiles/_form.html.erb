@@ -1,36 +1,49 @@
+<div class="container">
 
 <%= form_for(@car_profile) do |f| %>
-  <% if @car_profile.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@car_profile.errors.count, "error") %> prohibited this car_profile from being saved:</h2>
+        <div class="row">
+            <div class="col-md-6">
+                <% if @car_profile.errors.any? %>
+                <div id="error_explanation">
+                    <h2><%= pluralize(@car_profile.errors.count, "error") %> prohibited this car_profile from being saved:</h2>
 
-      <ul>
-      <% @car_profile.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
+                    <ul>
+                        <% @car_profile.errors.full_messages.each do |message| %>
+                        <li><%= message %></li>
+                        <% end %>
+                    </ul>
+                </div>
+                <% end %>
+            </div>
+         </div>
 
-    <%= f.label :name %><%= f.text_field :name, autofocus: true  %>
-    <div class="form-group">
-        <%= label_tag(:make, "Make: ") %><%= collection_select(:car_profile, :make, @make_names, :make_name, :make_name, {:prompt => true}, {:id => 'make_select'}) %>
+        <div class="row">
+            <div class="col-md-6">
+                <%= f.label :name %><%= f.text_field :name, autofocus: true  %>
+                <div class="form-group">
+                    <%= label_tag(:make, "Make: ") %><%= collection_select(:car_profile, :make, @make_names, :make_name, :make_name, {:prompt => true}, {:id => 'make_select'}) %>
+                </div>
+                <%# collection_select(:car_profile, :make, @make_names, :to_s, :to_s, {:prompt => true}, {:id => 'make_select'}) %>
+                <% if @model_names%>
+                    <%= label_tag(:model, "Model: ") %><%= collection_select(:car_profile, :model, @model_names, :to_s, :to_s, {:prompt => true}, {:id => 'model_select'}) %>
+                <% end %>
+                <% if @years %>
+                    <%= label_tag(:year, "Year: ") %><%= collection_select(:car_profile, :year, @years, :to_s, :to_s, {:prompt => true}, {:id => 'year_select'}) %>
+                <% end %>
+                <% if @engine_codes %>
+                    <%= label_tag(:engine_code, "Engine Code: ") %><%= collection_select(:car_profile, :engine_code, @engine_codes, :engine_code, :engine_code, {:prompt => true}, {:id => 'engine_code_select'}) %>
+                <% end %>
+            </div>
+        </div>
 
-    <%# collection_select(:car_profile, :make, @make_names, :to_s, :to_s, {:prompt => true}, {:id => 'make_select'}) %>
-    <% if @model_names%>
-        <%= label_tag(:model, "Model: ") %><%= collection_select(:car_profile, :model, @model_names, :to_s, :to_s, {:prompt => true}, {:id => 'model_select'}) %>
-    <% end %>
-    <% if @years %>
-        <%= label_tag(:year, "Year: ") %><%= collection_select(:car_profile, :year, @years, :to_s, :to_s, {:prompt => true}, {:id => 'year_select'}) %>
-    <% end %>
-        <br>
-    <% if @engine_codes %>
-        <%= label_tag(:engine_code, "Engine Code: ") %><%= collection_select(:car_profile, :engine_code, @engine_codes, :engine_code, :engine_code, {:prompt => true}, {:id => 'engine_code_select'}) %>
-    <% end %>
-    </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="actions">
+                    <%= f.submit 'Save', :class => 'btn btn-default'  %>
+                </div>
+            </div>
+        </div>
 
-  <div class="actions">
-    <%= f.submit 'Save', :class => 'btn btn-default'  %>
-  </div>
 <% end %>
+</div>
 
