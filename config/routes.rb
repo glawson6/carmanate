@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   root 'static_pages#home'
   resources :car_profiles
   get '/make/model/year', to: 'carmake#make_model_year', as: 'make_model_year'
-  resources :users,     except: [:new]
+  resources :users,     except: [:new, :index]
   resources :sessions,  only:   [:create]
 
 

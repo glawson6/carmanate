@@ -24,7 +24,7 @@ body{
 
 .regular-background{
     border-top: 5px solid #A0A0A0;
-    border-bottom: 5px solid #A0A0A0;
+   /* border-bottom: 5px solid #A0A0A0;*/
     height: 620px;
     margin: 0px;
 }
@@ -45,4 +45,20 @@ body{
 }
 .home-panel{
     color: #2f3f50;
+}
+
+.footer{
+    border-top: 5px solid #A0A0A0;
+}
+
+.header{
+    border-bottom: 5px solid #A0A0A0;
+}
+.footer-info{
+    background-color: #2f3f50;
+    height: 50px;
+}
+
+.remove-padding{
+    padding: 0px;
 }

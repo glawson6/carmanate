@@ -1,6 +1,8 @@
 class CreateMaintenanceActions < ActiveRecord::Migration
   def change
     create_table :maintenance_actions do |t|
+      t.integer :model_year_id
+      t.integer :car_make_id
       t.integer :external_id
       t.string :engine_code
       t.string :transmission_code

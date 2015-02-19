@@ -28,6 +28,8 @@ gem 'bcrypt'
 gem 'httparty'
 gem 'json'
 gem 'awesome_print'
+gem 'will_paginate', '~> 3.0.6'
+gem 'bootstrap-will_paginate', '0.0.9'
 
 group :production, :staging do
   gem 'rails_12factor'
@@ -45,5 +47,7 @@ end
 group :test do
   gem 'selenium-webdriver', '2.35.1'
   gem 'capybara', '2.2.0'
+  gem 'factory_girl_rails', '4.2.0'
+  gem 'faker'
 end
 

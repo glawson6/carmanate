@@ -6,14 +6,15 @@ class CarProfilesController < ApplicationController
   # GET /car_profiles
   # GET /car_profiles.json
   def index
-    @car_profiles = CarProfile.all
+    @car_profiles = current_user.car_profiles.all
   end
 
   # GET /car_profiles/1
   # GET /car_profiles/1.json
   def show
     @car_profile = current_user.car_profiles.find(params[:id])
-    @maintenance_actions = @car_profile.maintenance_actions.where(car_profile_id: @car_profile.id, engine_code: @car_profile.engine_code).order(:interval_mileage)
+
+    @maintenance_actions = MaintenanceAction.where(car_make_id: @car_profile.car_make_id, engine_code: @car_profile.engine_code).order(:interval_mileage).paginate(:page => params[:page], :per_page => 7)
     puts @maintenance_actions.count
   end
 

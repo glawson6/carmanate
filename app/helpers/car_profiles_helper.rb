@@ -1,7 +1,8 @@
 module CarProfilesHelper
 
   def has_engine_code?(engine_code)
-    @engine_codes = @car_profile.maintenance_actions.select(:engine_code).distinct
+
+    @engine_codes = MaintenanceAction.select(:engine_code).distinct.where(car_make_id: @car_profile.car_make_id)
     get_make_model_year
     has_engine_code = false
     @engine_codes.find{|ecode| engine_code == ecode[:engine_code]  }

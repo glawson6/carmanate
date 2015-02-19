@@ -20,141 +20,167 @@ require 'rails_helper'
 
 RSpec.describe CarProfilesController, type: :controller do
 
-  # This should return the minimal set of attributes required to create a valid
-  # CarProfile. As you add validations to CarProfile, be sure to
-  # adjust the attributes here as well.
-  let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
-    {}
-  }
+  # Sometimes need to do this to have RSpec work correctly
+  # Item.destroy_all
+  # Pre-populating fake data for our tests later
+  let(:car_profile1) { FactoryGirl.create(:car_profile) }
+  let(:car_profile2) { FactoryGirl.create(:car_profile, name: 'hac2001-2') }
 
-  let(:invalid_attributes) {
-    skip("Add a hash of attributes invalid for your model")
-  }
+  describe 'GET #index' do
+    it 'renders index' do # loads the page
+      get :index
+      expect(response).to render_template(:index)
+    end
 
-  # This should return the minimal set of values that should be in the session
-  # in order to pass any filters (e.g. authentication) defined in
-  # CarProfilesController. Be sure to keep this updated too.
-  let(:valid_session) { {} }
-
-  describe "GET #index" do
-    it "assigns all car_profiles as @car_profiles" do
-      car_profile = CarProfile.create! valid_attributes
-      get :index, {}, valid_session
-      expect(assigns(:car_profiles)).to eq([car_profile])
+    # Testing that we return all created Items
+    # Testing: @items = Item.all
+    it 'populate an array of car_profiles' do
+      get :index
+      # What this is doing:
+      # expect @items == [item1, item2]
+      expect(assigns(:car_profiles)).to eq([car_profile1, car_profile1])
     end
   end
 
-  describe "GET #show" do
-    it "assigns the requested car_profile as @car_profile" do
-      car_profile = CarProfile.create! valid_attributes
-      get :show, {:id => car_profile.to_param}, valid_session
-      expect(assigns(:car_profile)).to eq(car_profile)
-    end
-  end
-
-  describe "GET #new" do
-    it "assigns a new car_profile as @car_profile" do
-      get :new, {}, valid_session
-      expect(assigns(:car_profile)).to be_a_new(CarProfile)
-    end
-  end
-
-  describe "GET #edit" do
-    it "assigns the requested car_profile as @car_profile" do
-      car_profile = CarProfile.create! valid_attributes
-      get :edit, {:id => car_profile.to_param}, valid_session
-      expect(assigns(:car_profile)).to eq(car_profile)
-    end
-  end
-
-  describe "POST #create" do
-    context "with valid params" do
-      it "creates a new CarProfile" do
-        expect {
-          post :create, {:car_profile => valid_attributes}, valid_session
-        }.to change(CarProfile, :count).by(1)
-      end
-
-      it "assigns a newly created car_profile as @car_profile" do
-        post :create, {:car_profile => valid_attributes}, valid_session
-        expect(assigns(:car_profile)).to be_a(CarProfile)
-        expect(assigns(:car_profile)).to be_persisted
-      end
-
-      it "redirects to the created car_profile" do
-        post :create, {:car_profile => valid_attributes}, valid_session
-        expect(response).to redirect_to(CarProfile.last)
-      end
-    end
-
-    context "with invalid params" do
-      it "assigns a newly created but unsaved car_profile as @car_profile" do
-        post :create, {:car_profile => invalid_attributes}, valid_session
-        expect(assigns(:car_profile)).to be_a_new(CarProfile)
-      end
-
-      it "re-renders the 'new' template" do
-        post :create, {:car_profile => invalid_attributes}, valid_session
-        expect(response).to render_template("new")
-      end
-    end
-  end
-
-  describe "PUT #update" do
-    context "with valid params" do
-      let(:new_attributes) {
-        skip("Add a hash of attributes valid for your model")
-      }
-
-      it "updates the requested car_profile" do
-        car_profile = CarProfile.create! valid_attributes
-        put :update, {:id => car_profile.to_param, :car_profile => new_attributes}, valid_session
-        car_profile.reload
-        skip("Add assertions for updated state")
-      end
-
-      it "assigns the requested car_profile as @car_profile" do
-        car_profile = CarProfile.create! valid_attributes
-        put :update, {:id => car_profile.to_param, :car_profile => valid_attributes}, valid_session
-        expect(assigns(:car_profile)).to eq(car_profile)
-      end
-
-      it "redirects to the car_profile" do
-        car_profile = CarProfile.create! valid_attributes
-        put :update, {:id => car_profile.to_param, :car_profile => valid_attributes}, valid_session
-        expect(response).to redirect_to(car_profile)
-      end
-    end
-
-    context "with invalid params" do
-      it "assigns the car_profile as @car_profile" do
-        car_profile = CarProfile.create! valid_attributes
-        put :update, {:id => car_profile.to_param, :car_profile => invalid_attributes}, valid_session
-        expect(assigns(:car_profile)).to eq(car_profile)
-      end
-
-      it "re-renders the 'edit' template" do
-        car_profile = CarProfile.create! valid_attributes
-        put :update, {:id => car_profile.to_param, :car_profile => invalid_attributes}, valid_session
-        expect(response).to render_template("edit")
-      end
-    end
-  end
-
-  describe "DELETE #destroy" do
-    it "destroys the requested car_profile" do
-      car_profile = CarProfile.create! valid_attributes
-      expect {
-        delete :destroy, {:id => car_profile.to_param}, valid_session
-      }.to change(CarProfile, :count).by(-1)
-    end
-
-    it "redirects to the car_profiles list" do
-      car_profile = CarProfile.create! valid_attributes
-      delete :destroy, {:id => car_profile.to_param}, valid_session
-      expect(response).to redirect_to(car_profiles_url)
-    end
-  end
+  #describe 'GET #show' do
+  #  # Loads the details page for an item
+  #  it 'renders show' do
+  #    get :show, id: item1.id
+  #    expect(response).to render_template(:show)
+  #  end
+  #
+  #  # When we visit /items/5
+  #  # @item == Item where id is 5
+  #  it 'assigns correct item' do
+  #    get :show, id: item1.id
+  #    expect(assigns(:item)).to eq(item1)
+  #  end
+  #end
+  #
+  #describe 'GET #new' do
+  #  let(:user) { FactoryGirl.create(:user) }
+  #  before { sign_in user, no_capybara: true }
+  #
+  #  it 'renders new' do
+  #    get :new
+  #    expect(response).to render_template(:new)
+  #  end
+  #
+  #  # Testing: @item == Item.new
+  #  it 'assigns a new Item' do
+  #    get :new
+  #    expect(assigns(:item)).to be_a_new(Item)
+  #  end
+  #end
+  #
+  #describe 'GET #edit' do
+  #  let(:user) { FactoryGirl.create(:user) }
+  #  before { sign_in user, no_capybara: true }
+  #
+  #  let(:item_for_edit) { FactoryGirl.create(:item, user_id: user.id) }
+  #  # Assume for discussion that item.id == 3
+  #  it 'renders edit' do
+  #    get :edit, id: item_for_edit.id # /items/3/edit
+  #    expect(response).to render_template(:edit) # loads the edit template
+  #  end
+  #
+  #  # Want to confirm @item = Item.find(3) when we go to /items/3/edit
+  #  it 'assigns correct item' do
+  #    get :edit, id: item_for_edit.id
+  #    expect(assigns(:item)).to eq(item_for_edit) # @item == item_for_edit (defined above)
+  #  end
+  #end
+  #
+  #describe 'POST #create' do
+  #  let(:user) { FactoryGirl.create(:user) }
+  #  before { sign_in user, no_capybara: true }
+  #
+  #  context 'valid attributes' do
+  #    # Why double bracket?
+  #    # let(:item) { Item.new }
+  #    # is like saying: item = Item.new
+  #    # valid_attributes = { name: '' }
+  #    # let(valid_attributes) { { name: '' } }
+  #
+  #    it 'create new item' do
+  #      expect{
+  #        post :create, item: FactoryGirl.attributes_for(:item, user_id: user.id)
+  #      }.to change(Item, :count).by(1)
+  #    end
+  #
+  #    it 'redirects to items#index' do
+  #      post :create, item: FactoryGirl.attributes_for(:item, user_id: user.id)
+  #      expect(response).to redirect_to(items_path)
+  #    end
+  #  end
+  #
+  #  context 'invalid attributes' do
+  #    let(:invalid_attributes) { { name: '' } }
+  #
+  #    it 'does not create new item' do
+  #      expect{
+  #        post :create, item: invalid_attributes
+  #      }.to_not change(Item, :count)
+  #    end
+  #
+  #    it 're-renders new' do
+  #      post :create, item: invalid_attributes
+  #      expect(response).to render_template(:new)
+  #    end
+  #  end
+  #end
+  #
+  #describe 'PATCH #update' do
+  #  let(:user) { FactoryGirl.create(:user) }
+  #  before { sign_in user, no_capybara: true }
+  #
+  #  let(:item_for_edit) { FactoryGirl.create(:item, name: '2-person sleeping_bag', user: user) }
+  #
+  #  context 'valid attributes' do
+  #    it 'updates item' do
+  #      patch :update, id: item_for_edit.id, item: { name: '3-person sleeping_bag' }
+  #      item_for_edit.reload
+  #      expect(item_for_edit.name).to eq('3-person sleeping_bag')
+  #      # If we were using instance variable for item, could do the following:
+  #      # expect(assigns(:item).name).to eq('3-person sleeping_bag')
+  #    end
+  #
+  #    it 'redirects to items#show' do
+  #      patch :update, id: item_for_edit.id, item: { name: '3-person sleeping_bag' }
+  #      expect(response).to redirect_to(item_path(item_for_edit.id)) # item#show
+  #    end
+  #  end
+  #
+  #  context 'invalid attributes' do
+  #    it 'does not update item' do
+  #      patch :update, id: item_for_edit.id, item: { name: '' }
+  #      item_for_edit.reload
+  #      expect(item_for_edit.name).to eq('2-person sleeping_bag') # aka what we started with
+  #    end
+  #
+  #    it 're-renders edit' do
+  #      patch :update, id: item_for_edit.id, item: { name: '' }
+  #      expect(response).to render_template(:edit)
+  #    end
+  #  end
+  #end
+  #
+  #describe 'DELETE #destroy' do
+  #  let(:user) { FactoryGirl.create(:user) }
+  #  before { sign_in user, no_capybara: true }
+  #
+  #  it 'deletes requested item' do
+  #    item_for_removal = FactoryGirl.create(:item, user_id: user.id)
+  #    expect{
+  #      delete :destroy, id: item_for_removal.id
+  #    }.to change(Item, :count).by(-1)
+  #  end
+  #
+  #  it 'redirects to index' do
+  #    item_for_removal = FactoryGirl.create(:item, user_id: user.id)
+  #    delete :destroy, id: item_for_removal.id
+  #    expect(response).to redirect_to(items_path)
+  #  end
+  #end
 
 end

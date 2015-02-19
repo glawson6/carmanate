@@ -1,7 +1,7 @@
 class CreateCarMakes < ActiveRecord::Migration
   def change
     create_table :car_makes do |t|
-      t.string :external_id
+      t.integer :model_year_id
       t.string :make_name
       t.string :make_nice_name
       t.string :cmodel_name

@@ -17,7 +17,7 @@ ActiveRecord::Schema.define(version: 20150218040302) do
   enable_extension "plpgsql"
 
   create_table "car_makes", force: :cascade do |t|
-    t.string   "external_id"
+    t.integer  "model_year_id"
     t.string   "make_name"
     t.string   "make_nice_name"
     t.string   "cmodel_name"
@@ -28,18 +28,21 @@ ActiveRecord::Schema.define(version: 20150218040302) do
   end
 
   create_table "car_profiles", force: :cascade do |t|
-    t.string   "external_id"
+    t.integer  "model_year_id"
     t.string   "make"
     t.string   "model"
     t.integer  "year"
     t.string   "engine_code"
     t.string   "name"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.integer  "car_make_id"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
     t.integer  "user_id"
   end
 
   create_table "maintenance_actions", force: :cascade do |t|
+    t.integer  "model_year_id"
+    t.integer  "car_make_id"
     t.string   "external_id"
     t.string   "engine_code"
     t.string   "transmission_code"
@@ -56,7 +59,6 @@ ActiveRecord::Schema.define(version: 20150218040302) do
     t.string   "model_year"
     t.datetime "created_at",         null: false
     t.datetime "updated_at",         null: false
-    t.integer  "car_profile_id"
   end
 
   add_index "maintenance_actions", ["external_id"], name: "index_maintenance_actions_on_external_id", unique: true, using: :btree
@@ -71,5 +73,4 @@ ActiveRecord::Schema.define(version: 20150218040302) do
   end
 
   add_foreign_key "car_profiles", "users"
-  add_foreign_key "maintenance_actions", "car_profiles"
 end

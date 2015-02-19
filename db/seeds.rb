@@ -35,7 +35,7 @@ def save_maintenance(user,car_profile)
   maintenance_query = EdmundsApi.create_maintenance_action_query(model_year_id: model_year_id, api_key: api_key)
   maintenance_response = EdmundsApi.get_maintenance_actions(maintenance_action_query: maintenance_query)
   maintenance_response["actionHolder"].each do |mreport|
-  car_profile.maintenance_actions.create({external_id: mreport["id"], engine_code: mreport["engineCode"], transmission_code: mreport["transmissionCode"],interval_month: mreport["intervalMonth"],
+  MaintenanceAction.create({external_id: mreport["id"], engine_code: mreport["engineCode"], transmission_code: mreport["transmissionCode"],interval_month: mreport["intervalMonth"],
     interval_mileage: mreport["intervalMileage"],  frequency: mreport["frequency"], part_cost_per_unit: mreport["partCostPerUnit"],
     action: mreport["action"], item: mreport["item"], item_description: mreport["itemDescription"], labor_units: mreport["laborUnits"],
     parts_units: mreport["partsUnits"], drive_type: mreport["driveType"], model_year: mreport["modelYear"]})
@@ -45,10 +45,12 @@ def save_maintenance(user,car_profile)
   puts engine_codes.first.engine_code
   car_profile.update_attributes(engine_code: engine_codes.first.engine_code)
 end
-
+CarMake.destroy_all
 User.destroy_all
+CarmanateService.populate_car_makes
+
 user = User.create(name: 'tap', email: 'bigtap@taptechnology.net', password: 'foobar', password_confirmation:'foobar')
-car_profile = user.car_profiles.create(make: 'honda', model: 'civic', year: '2013', name: 'hc2013')
+car_profile = user.car_profiles.create!(make: 'honda', model: 'civic', year: '2013', name: 'hc2013')
 carmanate = CarmanateService.new(user: user, car_profile: car_profile)
 puts "saving user => #{user.name}"
 carmanate.save_maintenance_actions
@@ -60,8 +62,15 @@ carmanate2.save_maintenance_actions
 #save_maintenance(user2,car_profile2)
 puts "saving user => #{user2.name}"
 
-makes_response = JSON.parse(HTTParty.get("https://api.edmunds.com/api/vehicle/v2/makes?view=basic&fmt=json&api_key=uvgp3r9dfpve37bchqu4vp4g").body)
-makes_response["makes"].each{|make| make["models"].each{|model| model["years"].each{|year| CarMake.create(external_id: make["id"],
-                              make_name: make["name"], make_nice_name: make["niceName"], cmodel_name: model["name"],
-                              cmodel_nice_name: model["niceName"], year: year["year"]) }}}
+#makes_response = JSON.parse(HTTParty.get("https://api.edmunds.com/api/vehicle/v2/makes?view=basic&fmt=json&api_key=uvgp3r9dfpve37bchqu4vp4g").body)
+#makes_response["makes"].each{|make| make["models"].each{|model| model["years"].each{|year| CarMake.create(model_year_id: make["id"],
+#                              make_name: make["name"], make_nice_name: make["niceName"], cmodel_name: model["name"],
+#                              cmodel_nice_name: model["niceName"], year: year["year"]) }}}
+
+#user = User.create(name: 'tap', email: 'tap@tap.net', password: 'foobar', password_confirmation:'foobar')
+#car_profile = user.car_profiles.create(make: 'honda', model: 'civic', year: '2013', name: 'hc2013')
+#pattern_make = car_profile.make.downcase
+#pattern_model = car_profile.model.downcase
+#car_make_where = "LOWER(make_name) LIKE '%#{pattern_make}%' and LOWER(cmodel_name) LIKE '%#{pattern_model}%' and year=#{car_profile.year}"
+#car_make = CarMake.where(car_make_where)
 

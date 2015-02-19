@@ -1,3 +1,3 @@
 class MaintenanceAction < ActiveRecord::Base
-  belongs_to :car_profile
+  validates :model_year_id, presence: true
 end
