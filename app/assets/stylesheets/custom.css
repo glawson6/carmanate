@@ -15,16 +15,14 @@ body{
 .auto-image{
     background: #000 url("/images/auto-repair-promo.jpg") no-repeat top center;
     background-size:cover;
-    border-top: 5px solid #A0A0A0;
-    border-bottom: 5px solid #A0A0A0;
     height: 620px;
     margin: 0px;
     color: #ffffff;
 }
 
 .regular-background{
-    border-top: 5px solid #A0A0A0;
-   /* border-bottom: 5px solid #A0A0A0;*/
+    /*border-top: 5px solid #A0A0A0;
+    border-bottom: 5px solid #A0A0A0;*/
     height: 620px;
     margin: 0px;
 }
@@ -44,6 +42,7 @@ body{
     height: 605px;
 }
 .home-panel{
+    background-color: white;
     color: #2f3f50;
 }
 

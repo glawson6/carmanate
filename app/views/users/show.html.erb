@@ -1,17 +1,27 @@
 <% provide(:title, @user.name) %>
 <div class="container-fluid regular-background">
     <div class="row">
+        <div class="col-md-12 remove-padding">
+            <div class="panel panel-default">
+                <div class="panel-heading">Car Profiles</div>
+                <table class="table table-bordered table-condensed table-striped">
+                    <thead>
+                    <tr>
+                        <th>Maintenance Report</th>
+                        <th>Edit</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <% @user.car_profiles.each do |item|%>
+                        <tr>
+                            <td><%= link_to item.name, car_profile_path(item) %></td>
+                            <td><%= link_to "edit", edit_car_profile_path(item) %></td>
+                        </tr>
+                    <% end %>
+                    </tbody>
+                </table>
+            </div>
 
-<h5>Car Profiles</h5>
-<ul>
-    <% @user.car_profiles.each do |item| %>
-        <li>
-            <%= link_to item.name, car_profile_path(item) %>
-            <% if current_user?(@user) %>
-                | <%= link_to "edit", edit_car_profile_path(item) %>
-            <% end %>
-        </li>
-    <% end %>
-</ul>
         </div>
+    </div>
 </div>
