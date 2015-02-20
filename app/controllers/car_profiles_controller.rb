@@ -58,7 +58,8 @@ class CarProfilesController < ApplicationController
         puts "We SAVED in create!!!!!!"
         @carmante_service = CarmanateService.new({car_profile: @car_profile, user: current_user})
         @carmante_service.delete_maintenance_actions
-        @carmante_service .save_maintenance_actions
+
+          @carmante_service.save_maintenance_actions if (@car_profile.make && @car_profile.model && @car_profile.year)
 
         if has_engine_code? @car_profile.engine_code
           redirect_to @car_profile, notice: 'Car profile was successfully created.'
@@ -80,10 +81,12 @@ class CarProfilesController < ApplicationController
   # PATCH/PUT /car_profiles/1.json
   def update
       if @car_profile.update(car_profile_params)
-        puts "We SAVED in update!!!!!!"
+
         @carmante_service  = CarmanateService.new({car_profile: @car_profile, user: current_user})
         @carmante_service.delete_maintenance_actions
-        @carmante_service.save_maintenance_actions
+
+          @carmante_service.save_maintenance_actions if (@car_profile.make && @car_profile.model && @car_profile.year)
+
         if has_engine_code? @car_profile.engine_code
           redirect_to @car_profile, notice: 'Car profile was successfully updated.'
           #format.html { redirect_to @car_profile, notice: 'Car profile was successfully created.' }

@@ -33,17 +33,21 @@ class CarmanateService
     maintenance_query = EdmundsApi.create_maintenance_action_query(model_year_id: model_year_id, api_key: @api_key)
     #puts "maintenance_query => #{maintenance_query}"
     maintenance_response = EdmundsApi.get_maintenance_actions(maintenance_action_query: maintenance_query)
+    if !maintenance_items_exist?
     maintenance_response["actionHolder"].each do |mreport|
-
-      #if !MaintenanceAction.find_by(car_make_id: @car_make.id)
-        MaintenanceAction.first_or_create({ model_year_id: model_year_id, car_make_id: @car_make.id,
+        MaintenanceAction.create({ model_year_id: model_year_id, car_make_id: @car_make.id,
           external_id: mreport["id"], engine_code: mreport["engineCode"], transmission_code: mreport["transmissionCode"],interval_month: mreport["intervalMonth"],
           interval_mileage: mreport["intervalMileage"],  frequency: mreport["frequency"], part_cost_per_unit: mreport["partCostPerUnit"],
           action: mreport["action"], item: mreport["item"], item_description: mreport["itemDescription"], labor_units: mreport["laborUnits"],
           parts_units: mreport["partsUnits"], drive_type: mreport["driveType"], model_year: mreport["modelYear"]
         })
        # end
-    end
+      end
+      end
+  end
+
+  def maintenance_items_exist?
+    MaintenanceAction.find_by(car_make_id: @car_profile.car_make_id)
   end
 
   def get_engine_codes
