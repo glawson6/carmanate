@@ -1,10 +1,15 @@
 <% provide(:title, 'Create Car Profile') %>
 <div class="container-fluid regular-background">
+    <!-- new user -->
+    <%= render 'layouts/flash_messages' %>
     <div class="row">
-        <h1>New Car Profile</h1>
-        <%= render 'form' %>
-        <%= link_to 'Back', car_profiles_path %>
-
+        <div class="panel panel-default remove-padding">
+            <div class="panel-heading text-center"><h1>New Car Profile</h1></div>
+            <div class="panel-body">
+                <%= render 'car_profiles/form' %>
+            </div>
+            <div class="panel-footer"><%= link_to 'Back', car_profiles_path %></div>
+        </div>
     </div>
 </div>
 <%= render 'makemodelyear' %>

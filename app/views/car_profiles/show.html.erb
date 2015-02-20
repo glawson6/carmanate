@@ -1,12 +1,14 @@
 <div class="container-fluid regular-background">
     <div class="row">
-        <div class="col-md-12">
-            <h2>Car Profile: <%= @car_profile.name %>-<%=@car_profile.to_s %> Engine Code: <%= @car_profile.engine_code %></h2>
-            <%= will_paginate @maintenance_actions, class: 'pagination pagination-sm' %>
-                    <!-- Table -->
-                    <!--table class="table table-bordered table-condensed table-striped" id="table-pagination" data-url="data2.json" data-height="400" data-pagination="true" data-search="true"-->
+        <div class="col-md-12 remove-padding">
+            <div class="panel panel-default">
+                <div class="panel-heading text-center"><h1>Maintenance Report</h1></div>
+                <div class="panel-body">
+                    <h2>Car Profile: <%= @car_profile.name %></h2>
+                    <h4><%=@car_profile.year_make_model %></h4>
+                    <h4> Engine Type : <%= @car_profile.engine_code %></h4>
+                    <%= will_paginate @maintenance_actions, class: 'pagination pagination-sm' %>
                     <table class="table table-bordered table-condensed table-striped">
-
                         <thead>
                         <tr>
                             <th>Mileage</th>
@@ -19,25 +21,23 @@
                         </thead>
                         <tbody>
                         <% @maintenance_actions.each do |maction|%>
-                        <tr>
-                            <td><%= maction.interval_mileage%></td>
-                            <td><%= maction.interval_month%></td>
-                            <td><%= maction.action%></td>
-                            <td><%= maction.item%></td>
-                            <td><%= maction.item_description%></td>
-                            <td><%= maction.labor_units%></td>
-                        </tr>
+                            <tr>
+                                <td><%= maction.interval_mileage%></td>
+                                <td><%= maction.interval_month%></td>
+                                <td><%= maction.action%></td>
+                                <td><%= maction.item%></td>
+                                <td><%= maction.item_description%></td>
+                                <td><%= maction.labor_units%></td>
+                            </tr>
                         <% end %>
                         </tbody>
                     </table>
-
-
-
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12"><%= link_to 'Edit', edit_car_profile_path(@car_profile) %> |
-            <%= link_to 'Back', user_path(current_user) %>
+                </div>
+                <div class="panel-footer">
+                    <%= link_to 'Edit', edit_car_profile_path(@car_profile) %> |
+                    <%= link_to 'Back', user_path(current_user) %>
+                </div>
+            </div>
         </div>
     </div>
 </div>

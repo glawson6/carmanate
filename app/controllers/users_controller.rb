@@ -3,7 +3,7 @@ class UsersController < ApplicationController
   before_action :correct_user,    only: [:edit, :update, :destroy]
   before_action :redirect_if_signed_in, only: [:new, :create]
   before_action :admin_user,      only: [:destroy]
-
+  include CarProfilesHelper
   def new
     @user = User.new
   end
@@ -23,6 +23,11 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
+    if @user.car_profiles.count > 0
+      render 'show'
+    else
+      redirect_to new_car_profile_path
+    end
   end
 
   def index

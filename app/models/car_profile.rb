@@ -9,4 +9,7 @@ class CarProfile < ActiveRecord::Base
   def to_s
     "#{make}-#{model}-#{year}-#{engine_code}"
   end
+  def year_make_model
+    "#{year} #{make} #{model}"
+  end
 end

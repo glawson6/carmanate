@@ -23,10 +23,13 @@ RSpec.describe CarProfilesController, type: :controller do
   # Sometimes need to do this to have RSpec work correctly
   # Item.destroy_all
   # Pre-populating fake data for our tests later
-  let(:car_profile1) { FactoryGirl.create(:car_profile) }
-  let(:car_profile2) { FactoryGirl.create(:car_profile, name: 'hac2001-2') }
+  let(:user) { FactoryGirl.create(:user) }
+  let(:car_profile1) { FactoryGirl.create(:car_profile, user: user) }
+  let(:car_profile2) { FactoryGirl.create(:car_profile, name: 'hac2001-2', user: user) }
 
   describe 'GET #index' do
+    before { sign_in user, no_capybara: true }
+
     it 'renders index' do # loads the page
       get :index
       expect(response).to render_template(:index)
@@ -38,58 +41,68 @@ RSpec.describe CarProfilesController, type: :controller do
       get :index
       # What this is doing:
       # expect @items == [item1, item2]
-      expect(assigns(:car_profiles)).to eq([car_profile1, car_profile1])
+      expect(assigns(:car_profiles)).to eq([car_profile1, car_profile2])
     end
   end
 
-  #describe 'GET #show' do
-  #  # Loads the details page for an item
-  #  it 'renders show' do
-  #    get :show, id: item1.id
-  #    expect(response).to render_template(:show)
-  #  end
-  #
-  #  # When we visit /items/5
-  #  # @item == Item where id is 5
-  #  it 'assigns correct item' do
-  #    get :show, id: item1.id
-  #    expect(assigns(:item)).to eq(item1)
-  #  end
-  #end
-  #
-  #describe 'GET #new' do
-  #  let(:user) { FactoryGirl.create(:user) }
-  #  before { sign_in user, no_capybara: true }
-  #
-  #  it 'renders new' do
-  #    get :new
-  #    expect(response).to render_template(:new)
-  #  end
-  #
-  #  # Testing: @item == Item.new
-  #  it 'assigns a new Item' do
-  #    get :new
-  #    expect(assigns(:item)).to be_a_new(Item)
-  #  end
-  #end
-  #
-  #describe 'GET #edit' do
-  #  let(:user) { FactoryGirl.create(:user) }
-  #  before { sign_in user, no_capybara: true }
-  #
-  #  let(:item_for_edit) { FactoryGirl.create(:item, user_id: user.id) }
-  #  # Assume for discussion that item.id == 3
-  #  it 'renders edit' do
-  #    get :edit, id: item_for_edit.id # /items/3/edit
-  #    expect(response).to render_template(:edit) # loads the edit template
-  #  end
-  #
-  #  # Want to confirm @item = Item.find(3) when we go to /items/3/edit
-  #  it 'assigns correct item' do
-  #    get :edit, id: item_for_edit.id
-  #    expect(assigns(:item)).to eq(item_for_edit) # @item == item_for_edit (defined above)
-  #  end
-  #end
+  describe 'GET #show' do
+    before { sign_in user, no_capybara: true }
+    #before { sign_in user, no_capybara: true }
+    # Loads the details page for an item
+    it 'renders show' do
+      get :show, id: car_profile1.id
+      expect(response).to render_template(:show)
+    end
+
+    # When we visit /items/5
+    # @item == Item where id is 5
+    it 'assigns correct car_profile' do
+      get :show, id: car_profile1.id
+      expect(assigns(:car_profile)).to eq(car_profile1)
+    end
+
+    context 'no year' do
+      let(:car_profile) { FactoryGirl.create(:car_profile, year: nil, user: user) }
+      it 'renders edit' do
+        get :show, id: car_profile.id
+        expect(response).to render_template(:edit)
+      end
+    end
+  end
+
+  describe 'GET #new' do
+    let(:user) { FactoryGirl.create(:user) }
+    before { sign_in user, no_capybara: true }
+
+    it 'renders new' do
+      get :new
+      expect(response).to render_template(:new)
+    end
+
+    # Testing: @item == Item.new
+    it 'assigns a new CarProfile' do
+      get :new
+      expect(assigns(:car_profile)).to be_a_new(CarProfile)
+    end
+  end
+
+  describe 'GET #edit' do
+    let(:user) { FactoryGirl.create(:user) }
+    before { sign_in user, no_capybara: true }
+
+    let(:car_profile_for_edit) { FactoryGirl.create(:car_profile, user: user) }
+    # Assume for discussion that item.id == 3
+    it 'renders edit' do
+      get :edit, id: car_profile_for_edit.id # /items/3/edit
+      expect(response).to render_template(:edit) # loads the edit template
+    end
+
+    # Want to confirm @item = Item.find(3) when we go to /items/3/edit
+    it 'assigns correct car_profile' do
+      get :edit, id: car_profile_for_edit.id
+      expect(assigns(:car_profile)).to eq(car_profile_for_edit) # @item == item_for_edit (defined above)
+    end
+  end
   #
   #describe 'POST #create' do
   #  let(:user) { FactoryGirl.create(:user) }

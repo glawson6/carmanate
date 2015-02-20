@@ -16,6 +16,7 @@ FactoryGirl.define do
     model 'accord'
     year 2001
     name 'hac2001'
+    engine_code '6VNAG3.0'
     user
   end
 
