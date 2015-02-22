@@ -6,10 +6,10 @@ describe CarMake do
 
   subject { car_make }
 
-  ##it { should respond_to(:model_year_id) }
-  #it { should respond_to(:make_name) }
-  #it { should respond_to(:make_nice_name) }
-  #it { should respond_to(:cmodel_name) }
-  #it { should respond_to(:cmodel_nice_name) }
-  #it { should respond_to(:year) }
+  it { should respond_to(:model_year_id) }
+  it { should respond_to(:make_name) }
+  it { should respond_to(:make_nice_name) }
+  it { should respond_to(:cmodel_name) }
+  it { should respond_to(:cmodel_nice_name) }
+  it { should respond_to(:year) }
 end

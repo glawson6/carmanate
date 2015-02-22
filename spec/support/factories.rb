@@ -30,7 +30,7 @@ FactoryGirl.define do
   end
 
   factory :car_make do
-    sequence(model_year_id) {|n| n}
+    sequence(:model_year_id) {|n| n}
     make_name 'Honda'
     make_nice_name 'honda'
     cmodel_name 'Civic'
