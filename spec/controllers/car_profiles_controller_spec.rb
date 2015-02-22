@@ -49,10 +49,10 @@ RSpec.describe CarProfilesController, type: :controller do
     before { sign_in user, no_capybara: true }
     #before { sign_in user, no_capybara: true }
     # Loads the details page for an item
-    it 'renders show' do
-      get :show, id: car_profile1.id
-      expect(response).to render_template(:show)
-    end
+    #it 'renders show' do
+    #  get :show, id: car_profile1.id
+    #  expect(response).to render_template(:show)
+    #end
 
     # When we visit /items/5
     # @item == Item where id is 5

@@ -36,6 +36,8 @@ class CarProfilesController < ApplicationController
   def edit
     @car_profile = CarProfile.find(params[:id])
     get_make_model_year
+    get_engine_codes if @car_profile.car_make_id
+
   end
 
   # POST /car_profiles
@@ -43,42 +45,40 @@ class CarProfilesController < ApplicationController
   def create
     @car_profile =  current_user.car_profiles.new(car_profile_params)
     puts "This is a => #{@car_profile.inspect}"
-
-      if @car_profile.save
-        puts "We SAVED in create!!!!!!"
-        @carmante_service = CarmanateService.new({car_profile: @car_profile, user: current_user})
-        @carmante_service.delete_maintenance_actions
-
-          @carmante_service.save_maintenance_actions if (@car_profile.make && @car_profile.model && @car_profile.year)
-
-        if has_engine_code? @car_profile.engine_code
-          redirect_to @car_profile, notice: 'Car profile was successfully created.'
-        else
-          render 'edit'
-        end
+    if @car_profile.save
+      puts "We SAVED in create!!!!!!"
+      @carmante_service = CarmanateService.new({car_profile: @car_profile, user: current_user})
+      @carmante_service.delete_maintenance_actions
+      @carmante_service.save_maintenance_actions if (@car_profile.make && @car_profile.model && @car_profile.year)
+      if has_engine_code? @car_profile.engine_code
+        redirect_to @car_profile, notice: 'Car profile was successfully created.'
       else
-        get_make_model_year
-        render :new
+        render 'edit'
       end
+    else
+      get_make_model_year
+      render :new
+    end
 
   end
 
   # PATCH/PUT /car_profiles/1
   # PATCH/PUT /car_profiles/1.json
   def update
-      if @car_profile.update(car_profile_params)
-        @carmante_service  = CarmanateService.new({car_profile: @car_profile, user: current_user})
-        @carmante_service.delete_maintenance_actions
-        @carmante_service.save_maintenance_actions if (@car_profile.make && @car_profile.model && @car_profile.year)
-        if has_engine_code? @car_profile.engine_code
-          redirect_to @car_profile, notice: 'Car profile was successfully updated.'
-        else
-          render 'edit'
-        end
+    car_make = CarmanateService.get_car_make(car_profile_params)
+    if @car_profile.update(car_profile_params) && car_make
+      @carmante_service  = CarmanateService.new({car_profile: @car_profile, user: current_user})
+      @carmante_service.delete_maintenance_actions
+      @carmante_service.save_maintenance_actions if (@car_profile.make && @car_profile.model && @car_profile.year)
+      if has_engine_code? @car_profile.engine_code
+        redirect_to @car_profile, notice: 'Car profile was successfully updated.'
       else
-        get_make_model_year
-        render :edit
+        render 'edit'
       end
+    else
+      get_make_model_year
+      render :edit
+    end
   end
 
   # DELETE /car_profiles/1

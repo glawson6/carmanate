@@ -21,10 +21,7 @@ class CarmanateService
   end
 
   def save_maintenance_actions
-    make_name = @car_profile.make.downcase
-    model_name = @car_profile.model.downcase
-    car_make_where = "LOWER(make_name) LIKE '%#{make_name}%' and LOWER(cmodel_name) LIKE '%#{model_name}%' and year=#{@car_profile.year}"
-    @car_make = CarMake.where(car_make_where).first
+    @car_make = CarmanateService.get_car_make(make: @car_profile.make, model: @car_profile.model, year: @car_profile.year)
     puts @car_make
     model_year_query = EdmundsApi.create_model_year_id_query(car_profile: @car_profile, api_key: @api_key)
     #puts "model_year_query => #{model_year_query}"
@@ -66,5 +63,16 @@ class CarmanateService
 
   def delete_maintenance_actions
     #MaintenanceAction.where(car_profile_id: @car_profile.id).destroy_all
+  end
+
+  def self.get_car_make(args)
+    make_name = args[:make].downcase
+    model_name = args[:model].downcase
+    year = args[:year]
+    if make_name && model_name && year
+      car_make_where = "LOWER(make_name) LIKE '%#{make_name}%' and LOWER(cmodel_name) LIKE '%#{model_name}%' and year=#{year}"
+      car_make = CarMake.where(car_make_where).first
+    end
+    return car_make
   end
 end

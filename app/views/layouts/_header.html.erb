@@ -16,11 +16,7 @@
                 <li <%= 'class="active"' if @active == 'about' %>><a href="/about">About</a></li>
 
                 <% if signed_in? %>
-                    <li>
-                        <%= link_to(current_user.name) do %>
-                            <span>Hello: </span> <strong><%= current_user.name %></strong>
-                        <% end %>
-                    </li>
+                    <li> <div class="hello-top"><span>Hello: </span> <strong><%= current_user.name %></strong></div></li>
                     <li><%= link_to "Sign Out", signout_path, method: 'delete' %></li>
                 <% else %>
                     <li><%= link_to "Sign Up", signup_path %></li>

@@ -14,7 +14,7 @@ FactoryGirl.define do
   factory :car_profile do
     make 'honda'
     model 'accord'
-    year 2001
+    year 2009
     name 'hac2001'
     engine_code '6VNAG3.0'
     user
@@ -28,9 +28,13 @@ FactoryGirl.define do
     image_file "random_thing.png"
     user
   end
-end
 
-# FactoryGirl.create(:item)  # this will automagically create a user as well
-# # can override which user by doing something like:
-# let(:user) { FactoryGirl.create(:user) }
-# let(:item) { FactoryGirl.create(:item, user_id: user.id) }
+  factory :car_make do
+    sequence(model_year_id) {|n| n}
+    make_name 'Honda'
+    make_nice_name 'honda'
+    cmodel_name 'Civic'
+    cmodel_nice_name 'civic'
+    year 2008
+  end
+end

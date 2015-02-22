@@ -65,3 +65,13 @@ body{
 .nav-pills-top{
    margin-top: 5px;
 }
+
+.hello-top{
+    color: white;
+    position: relative;
+    display: block;
+    padding-top: 19.5px;
+    padding-bottom: 19.5px;
+   /* padding: 10px 15px; */
+    box-sizing: border-box;
+}
