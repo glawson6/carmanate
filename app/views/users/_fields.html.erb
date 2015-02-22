@@ -1,8 +1,8 @@
 
-
+<%= form_for(@user, :html => { :class => ""} ) do |f| %>
     <table class="table table-bordered table-condensed table-striped">
         <tbody>
-        <%= form_for(@user, :html => { :class => ""} ) do |f| %>
+
             <tr>
                 <td><%= f.label :name %><%= f.text_field :name, autofocus: true, class: 'form-control'  %></td>
             </tr>
@@ -16,6 +16,7 @@
                 <td><%= f.label :password_confirmation, "Confirm password" %><%= f.password_field :password_confirmation, class: 'form-control' %></td>
             </tr>
         <tr><td class="text-center" colspan="2"><%= f.submit 'Save', :class => 'btn btn-default' %></td></tr>
-        <% end %>
+
         </tbody>
     </table>
+<% end %>

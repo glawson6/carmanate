@@ -42,7 +42,11 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     if @user.update_attributes(user_params)
       flash[:success] = "Profile updated."
-      redirect_to user_path @user
+      if @user.car_profiles.count > 0
+        render 'show'
+      else
+        redirect_to new_car_profile_path
+      end
     else
       render 'edit'
     end
