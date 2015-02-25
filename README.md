@@ -1,4 +1,4 @@
-#Carmanate
+#[Carmanate](https://carmanate.herokuapp.com)
 
 Functionality:
 
@@ -13,15 +13,24 @@ Functionality:
 * Login User
 * Logout user
 
-Get all makes an year ids:
-https://api.edmunds.com/api/vehicle/v2/makes?state=used&view=basic&fmt=json&api_key=uvgp3r9dfpve37bchqu4vp4g
 
 
-Get one make, model, year to get yearid:
-https://api.edmunds.com/api/vehicle/v2/dodge?view=basic&fmt=json&api_key=uvgp3r9dfpve37bchqu4vp4g
-https://api.edmunds.com/api/vehicle/v2/honda/accord?year=2014&view=basic&fmt=json&api_key=uvgp3r9dfpve37bchqu4vp4g
+##Overview
 
-Once you have a yearid get maintenance:
-https://api.edmunds.com/v1/api/maintenance/actionrepository/findbymodelyearid?modelyearid=3279&fmt=json&api_key=uvgp3r9dfpve37bchqu4vp4g
+Carmanate is Ruby-Rails application. It allows a user to login and create car profiles. The profiles have make, model, year, and engine. After
 
-https://ancient-brushlands-6988.herokuapp.com
+the profile is created, a maintenance report is pulled with Edmunds Vehicle API.
+
+
+
+##Technologies Used
+* Rails 4.2.0
+* ActiveRecord 4.2.0
+* Ruby 2.2.0
+* HTML5
+* CSS3
+* PostgreSQL
+* Twitter Bootstrap 3.3.2
+* Pagination with [will_paginate](https://github.com/mislav/will_paginate) & [will_paginate-bootstrap](https://github.com/bootstrap-ruby/will_paginate-bootstrap)
+* Heroku deployment
+
