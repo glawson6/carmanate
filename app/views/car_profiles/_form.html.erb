@@ -21,29 +21,29 @@
             <div class="col-md-3"></div>
             <div class="col-md-6">
                 <table class="table table-bordered table-condensed table-striped">
-                    <tbody>
-                        <tr>
+                    <tbody id="carMakeTableTB">
+                        <tr id="car-name-tr">
                             <td><%= label_tag(:make, "Name: ") %></td>
                             <td><%= f.text_field :name, autofocus: true, class: 'form-control'  %></td>
                         </tr>
-                        <tr>
+                        <tr id="car-make-tr">
                             <td><%= label_tag(:make, "Make: ") %></td>
                             <td><%= collection_select(:car_profile, :make, @make_names, :make_name, :make_name, {:prompt => true}, {:id => 'make_select', class: 'form-control'}) %></td>
                         </tr>
-                        <% if @model_names%>
-                        <tr>
+                        <% if (@model_names && @model_names.length > 0) %>
+                        <tr id="car-model-tr">
                             <td><%= label_tag(:model, "Model: ") %></td>
                             <td><%= collection_select(:car_profile, :model, @model_names, :cmodel_name, :cmodel_name, {:prompt => true}, {:id => 'model_select', class: 'form-control'}) %></td>
                         </tr>
                         <% end %>
-                        <% if @years %>
-                        <tr>
+                        <% if (@years && @years.length > 0) %>
+                        <tr id="car-year-tr">
                             <td><%= label_tag(:year, "Year: ") %></td>
                             <td><%= collection_select(:car_profile, :year, @years, :year, :year, {:prompt => true}, {:id => 'year_select', class: 'form-control'}) %></td>
                         </tr>
                         <% end %>
-                        <% if @engine_codes %>
-                        <tr>
+                        <% if (@engine_codes && @engine_codes.length > 0) %>
+                        <tr id="car-engine-code-tr">
                             <td><%= label_tag(:engine_code, "Engine Code: ") %></td>
                             <td><%= collection_select(:car_profile, :engine_code, @engine_codes, :engine_code, :engine_code, {:prompt => true}, {:id => 'engine_code_select', class: 'form-control'}) %></td>
                         </tr>

@@ -1,18 +1,16 @@
 <%= javascript_tag do %>
     /*alert("My example alert box.");*/
-    /*
+
     $(document).ready(function() {
         $('#make_select').change(function() {
             $.ajax({
                 url: "<%= make_model_year_path%>",
                 data: {
-                    model : $('#model_select').val(),
-                    make  : $('#make_select').val(),
-                    year  : $('#year_select').val()
+                    make : $('#make_select').val()
                 },
-                dataType: "script",
-                success: function(result){
-                    result;
+                dataType: "json",
+                success: function(results){
+                    updateMakeModelYearInfo(results);
                 }
              });
         });
@@ -21,22 +19,32 @@
                 url: "<%= make_model_year_path%>",
                 data: {
                     model : $('#model_select').val(),
+                    make : $('#make_select').val()
+                },
+                dataType: "json",
+                success: function(results){
+                    updateMakeModelYearInfo(results);
+                }
+             });
+        });
+        $('#year_select').change(function() {
+            console.log("Year => "+$('#year_select').val());
+            $.ajax({
+                url: "<%= make_model_year_path%>",
+                data: {
+                    model : $('#model_select').val(),
                     make : $('#make_select').val(),
                     year  : $('#year_select').val()
                 },
-                dataType: "script",
-                success: function(result){
-                    result;
+                dataType: "json",
+                success: function(results){
+                updateMakeModelYearInfo(results);
                 }
-             });
+            });
         });
         $('#make_select').val('<%= @make %>');
         $('#model_select').val('<%= @model %>');
         $('#year_select').val('<%= @year %>');
-        $('#model_select').trigger('change');
+        $('#engine_code_select').val('<%= @engine_code %>');
     });
-    */
-    $('#make_select').val('<%= @make %>');
-    $('#model_select').val('<%= @model %>');
-    $('#year_select').val('<%= @year %>');
 <% end %>
