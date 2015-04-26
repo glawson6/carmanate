@@ -1,13 +1,16 @@
 <% provide(:title, 'Sign Up') %>
 <div class="container-fluid regular-background">
-    <!-- new user -->
-    <%= render 'layouts/flash_messages' %>
-    <div class="row">
-        <div class="panel panel-default remove-padding">
-            <div class="panel-heading text-center"><h1>Sign Up</h1></div>
-            <div class="panel-body">
-                <%= render 'users/fields' %>
-            </div>
+  <!-- new user -->
+  <%= render 'layouts/flash_messages' %>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="panel panel-default signup-form-outer signup-panel-center">
+        <div class="panel-heading text-center"><h1>Sign Up</h1></div>
+        <div class="panel-body">
+          <%= render 'users/fields' %>
         </div>
+      </div>
     </div>
+  </div>
+
 </div>

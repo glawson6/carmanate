@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '2.1.2'
+ruby '2.2.0'
 gem 'puma'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.0'
@@ -30,6 +30,7 @@ gem 'json'
 gem 'awesome_print'
 gem 'will_paginate', '~> 3.0.6'
 gem 'bootstrap-will_paginate', '0.0.9'
+gem 'redcarpet'
 
 group :production, :staging do
   gem 'rails_12factor'
